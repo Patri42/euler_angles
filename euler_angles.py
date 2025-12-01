@@ -34,4 +34,19 @@ def rotationEulerZXZ (phi, theta, psi):
   Rz1 = rotation(psi)
   R = np.matmul (Rz2, np.matmul (Rx, Rz1))
   return R
-  
+
+def eulerAnglesFromRzxz (Rzxz):
+  phi = np.arctan2(Rzxz[0][2], Rzxz[1][2])
+  theta = np.arccos (Rzxz[2][2])
+  psi = np.arctan2 (Rzxz [2][0], -Rzxz[2][1])
+  return (phi, theta, psi)
+
+def eulerAnglesFromRxyz (Rxyz):
+  phi = np.arctan2(Rxyz[1][2], Rxyz[2][2])
+  theta = -np.arccos (Rxyz[0][2])
+  psi = np.arctan2 (Rxyz [0][1], Rxyz[0][0])
+  return (phi, theta, psi)
+
+phi_xyz = degToRad (phi_xyz_deg)
+theta_xyz = degToRad (theta_xyz_Deg)
+psi_xyz = degToRad (psi_xyz_deg) 
