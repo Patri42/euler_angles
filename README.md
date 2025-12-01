@@ -14,6 +14,7 @@ Matrix to Angles: Extract Euler angles from rotation matrices
 Sequence Conversion: Convert between XYZ and ZXZ Euler angle sequences
 
 ## Usage Example
+```python
 import numpy as np
 
 # Define angles in degrees
@@ -38,3 +39,4 @@ theta_zxz = radToDeg(angles_zxz[1])
 psi_zxz = radToDeg(angles_zxz[2])
 
 print(f"ZXZ Euler Angles: [{phi_zxz}, {theta_zxz}, {psi_zxz}]")
+```
