@@ -24,14 +24,14 @@ def rotationZ(theta):
 def rotationEulerXYZ (phi, theta, psi):
   Rx = rotationX(phi)
   Ry = rotationY(theta)
-  Rz = rotation(psi)
+  Rz = rotationZ(psi)
   R = np.matmul (Rx, np.matmul(Ry, Rz))
   return R
 
 def rotationEulerZXZ (phi, theta, psi):
   Rz2 = rotationZ(phi)
   Rx = rotationX(theta)
-  Rz1 = rotation(psi)
+  Rz1 = rotationZ(psi)
   R = np.matmul (Rz2, np.matmul (Rx, Rz1))
   return R
 
@@ -47,6 +47,37 @@ def eulerAnglesFromRxyz (Rxyz):
   psi = np.arctan2 (Rxyz [0][1], Rxyz[0][0])
   return (phi, theta, psi)
 
+def eulerAngleSequenceXYZToZXZ(phi_zxz, theta_zxz, psi_zxz):
+  phi_zxz = np.arctan2(-np.sin(theta_xyz), np.sin(phi_xyz) * np.cos(theta_xyz))
+  theta_zxz = np.arccos(np.cos(phi_xyz) * np.cos(theta_xyz))
+  a = np.cos(psi_xyz) * np.sin(theta_xyz) + np.sin(psi_xyz) * np.sin(phi_xyz) * np.cos(theta_xyz)
+  b = np.sin(psi_xyz) * np.sin(theta_xyz) - np.cos(psi_xyz) * np.sin(phi_xyz) * np.cos(theta_xyz)
+  psi_zxz = np.arctan2(a, b)
+  return (phi_zxz, theta_zxz, psi_zxz)
+
+phi_xyz_deg = -30.0
+theta_xyz_deg = 65.0
+psi_xyz_deg = -45.0
+
+print ("Euler Angles XYZ")
+
 phi_xyz = degToRad (phi_xyz_deg)
-theta_xyz = degToRad (theta_xyz_Deg)
+theta_xyz = degToRad (theta_xyz_deg)
 psi_xyz = degToRad (psi_xyz_deg) 
+
+Rxyz = rotationEulerXYZ (phi_xyz, theta_xyz, psi_xyz)
+
+attitude_zxz = eulerAnglesFromRzxz(Rxyz)
+
+phi_zxz_deg = radToDeg (attitude_zxz[0])
+theta_zxz_deg = radToDeg(attitude_zxz[1])
+psi_zxz_deg = radToDeg(attitude_zxz[2])
+print("Euler Angles ZXZ[{}, {}, {}]".format(phi_zxz_deg, theta_zxz_deg, psi_zxz_deg))
+
+attitude_zxz2 = eulerAngleSequenceXYZToZXZ(phi_xyz, theta_xyz, psi_xyz)
+
+phi_zxz_deg2 = radToDeg (attitude_zxz2[0])
+theta_zxz_deg2 = radToDeg(attitude_zxz2[1])
+psi_zxz_deg2 = radToDeg(attitude_zxz2[2])
+print("Euler Angles ZXZ[{}, {}, {}]".format(phi_zxz_deg2, theta_zxz_deg2, psi_zxz_deg2))
+
